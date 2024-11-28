@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CinéMaroc</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styleacceuil.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="nav">
+        <div class="left-section">
+            <div class="logo">
+                <img src="https://cdn-icons-png.flaticon.com/512/2503/2503508.png" alt="CinéMaroc Logo">
+                CinéMaroc
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="acceuil.html" class="active"><i class="fas fa-home"></i> Accueil</a>
+            <a href="reservations.html"><i class="fas fa-ticket"></i> Réservations</a>
+            <a href="contact.html"><i class="fas fa-phone"></i> Contact</a>
+            <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <a href="panier.html" id="cart-icon"><i class="fas fa-shopping-cart"></i> Panier (<span id="cart-count">0</span>)</a>
+        </div>
+    </nav>
+
+    
+<section class="content-section">
+    <h2>Bienvenue à CinéMaroc</h2>
+    <div class="main-content">
+        <img src="https://images.unsplash.com/photo-1517602302552-471fe67acf66" alt="Cinema Experience" class="cinema-image">
+        <div class="description">
+            <p><i class="fas fa-film"></i> Plongez dans une expérience cinématographique inégalée avec nos écrans haute définition et son surround.</p>
+            <p><i class="fas fa-couch"></i> Profitez du confort de nos sièges luxueux pour une immersion totale.</p>
+            <p><i class="fas fa-popcorn"></i> Savourez une large gamme de snacks et boissons pour accompagner votre film.</p>
+            <p><i class="fas fa-star"></i> Rejoignez-nous pour des avant-premières exclusives et des événements spéciaux.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Message Container -->
+<div id="message-container" class="message-container"></div>
+
+
+    <!-- Day Selection Buttons -->
+    <div class="days-container">
+        <button class="day-btn active" onclick="showMovies('Lundi')">Lundi</button>
+        <button class="day-btn" onclick="showMovies('Mardi')">Mardi</button>
+        <button class="day-btn" onclick="showMovies('Mercredi')">Mercredi</button>
+        <button class="day-btn" onclick="showMovies('Jeudi')">Jeudi</button>
+        <button class="day-btn" onclick="showMovies('Vendredi')">Vendredi</button>
+        <button class="day-btn" onclick="showMovies('Samedi')">Samedi</button>
+        <button class="day-btn" onclick="showMovies('Dimanche')">Dimanche</button>
+    </div>
+
+    <!-- Movies Section -->
+    <section class="movies-section">
+        <h2>Films à l'affiche</h2>
+        <div id="movies-grid" class="movies-grid">
+            <!-- Movies will be loaded here dynamically -->
+        </div>
+    </section>
+    <div id="success-message" class="success-message"></div>
+
+    <script>
+    const moviesByDay = {
+    'Lundi': [
+        {
+            id: 1,
+            title: "Dune: Part Two",
+            genre: "Science Fiction, Action",
+            hall: "IMAX 1",
+            price: "80 MAD",
+            poster: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg",
+            times: ["14:00", "17:00", "20:00"]
+        },
+        {
+            id: 2,
+            title: "Kung Fu Panda 4",
+            genre: "Animation, Comédie",
+            hall: "IMAX 2",
+            price: "60 MAD",
+            poster: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/kDp1vUBnMpe8ak4rjgl3cLELqjU.jpg",
+            times: ["13:00", "15:30", "18:00"]
+        },
+        {
+            id: 3,
+            title: "Aquaman 2",
+            genre: "Action,Adventure",
+            hall: "Salle 3",
+            price: "70 MAD",
+            poster: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/7lTnXOy0iNtBAdRP3TZvaKJ77F6.jpg",
+            times: ["14:30", "17:30", "20:30"]
+        },
+       
+        {
+            id: 5,
+            title: "Poor Things",
+            genre: "Drame, Romance",
+            hall: "VIP 2",
+            price: "85 MAD",
+            poster: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/kCGlIMHnOm8JPXq3rXM6c5wMxcT.jpg",
+            times: ["16:00", "19:00", "22:00"]
+        }
+    ],
+    'Mardi': [
+        {
+            id: 6,
+            title: "Madame Web",
+            genre: "Action, Science Fiction",
+            hall: "IMAX 1",
+            price: "75 MAD",
+            poster: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/rULWuutDcN5NvtiZi4FRPzRYWSh.jpg",
+            times: ["14:00", "16:30", "19:00"]
+        },
+      
+        {
+            id: 8,
+            title: "Anyone But You",
+            genre: "Comédie, Romance",
+            hall: "Salle 3",
+            price: "65 MAD",
+            poster: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/5qHoazZiaLe7oFBok7XlUhg96f2.jpg",
+            times: ["13:30", "16:00", "18:30"]
+        },
+        {
+            id: 9,
+            title: "Migration",
+            genre: "Animation, Aventure",
+            hall: "VIP 1",
+            price: "70 MAD",
+            poster: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/ldfCF9RhR40mppkzmftxapaHeTo.jpg",
+            times: ["14:30", "17:00", "19:30"]
+        },
+        {
+            id: 10,
+            title: "Argylle",
+            genre: "Action, Espionnage",
+            hall: "VIP 2",
+            price: "80 MAD",
+            poster: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/95VlSEfLMqeX36UVcHJuNlWEpwf.jpg",
+            times: ["15:30", "18:00", "20:30"]
+        }
+    ],
+    'Mercredi': [
+        {
+            id: 11,
+            title: "Mean Girls",
+            genre: "Comédie, Musical",
+            hall: "IMAX 1",
+            price: "70 MAD",
+            poster: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/fbbj3viSUDEGT1fFFMNpHP1iUjw.jpg",
+            times: ["13:00", "15:30", "18:00"]
+        },
+        {
+            id: 12,
+            title: "The Beekeeper",
+            genre: "Action, Thriller",
+            hall: "Salle 2",
+            price: "75 MAD",
+            poster: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/A7EByudX0eOzlkQ2FIbogzyazm2.jpg",
+            times: ["14:00", "16:30", "19:00"]
+        },
+        {
+            id: 13,
+            title: "Wonka",
+            genre: "Aventure, Comédie",
+            hall: "Salle 3",
+            price: "65 MAD",
+            poster: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/qhb1qOilapbapxWQn9jtRCMwXJF.jpg",
+            times: ["13:30", "16:00", "18:30"]
+        },
+        {
+            id: 14,
+            title: "Napoleon",
+            genre: "Action, Drame",
+            hall: "VIP 1",
+            price: "85 MAD",
+            poster: "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/jE5o7y9K6pZtWNNMEw3IdpHuncR.jpg",
+            times: ["14:30", "17:30", "20:30"]
+        },
+    
+    ]
+};
+        function showMovies(day) {
+            // Update active button
+            document.querySelectorAll('.day-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.textContent === day) {
+                    btn.classList.add('active');
+                }
+            });
+
+            const moviesGrid = document.getElementById('movies-grid');
+            const movies = moviesByDay[day];
+            
+            if (!movies) {
+                moviesGrid.innerHTML = '<p>Aucun film disponible pour ce jour</p>';
+                return;
+            }
+
+            moviesGrid.innerHTML = movies.map(movie => `
+                <div class="movie-card">
+                    <img src="${movie.poster}" alt="${movie.title}" class="movie-poster">
+                    <div class="movie-info">
+                        <h3>${movie.title}</h3>
+                        <p class="movie-genre"><i class="fas fa-film"></i> ${movie.genre}</p>
+                        <p class="movie-hall"><i class="fas fa-door-open"></i> ${movie.hall}</p>
+                        <p class="movie-price">${movie.price}</p>
+                        <select class="time-select" id="time-select-${movie.id}">
+                            ${movie.times.map(time => `<option value="${time}">${time}</option>`).join('')}
+                        </select>
+                        <div class="movie-buttons">
+                            <button class="btn btn-buy" onclick="addToCart(${movie.id}, '${day}')">
+            <i class="fas fa-shopping-cart"></i> Acheter
+        </button>
+                            <button class="btn btn-reserve" onclick="reserveMovie(${movie.id}, '${day}')">
+                                <i class="fas fa-ticket-alt"></i> Réserver
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addToCart(movieId, day) {
+    const movie = moviesByDay[day].find(m => m.id === movieId);
+    const timeSelect = document.getElementById(`time-select-${movieId}`);
+    const selectedTime = timeSelect.value;
+    
+    // Jib cart items li kaynin
+    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    
+    // Zid item jdid
+    cartItems.push({
+        id: movieId,
+        title: movie.title,
+        image: movie.poster,
+        price: parseFloat(movie.price.replace(' MAD', '')),
+        time: selectedTime,
+        date: day,
+        hall: movie.hall
+    });
+    
+    // Save f localStorage
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    
+    // Update cart count
+    updateCartCount();
+    
+    // Show success message
+    showMessage('Film ajouté au panier avec succès!');
+}
+
+function updateCartCount() {
+    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    document.getElementById('cart-count').textContent = cartItems.length;
+}
+
+function showMessage(message) {
+    const messageContainer = document.getElementById('message-container');
+    messageContainer.textContent = message;
+    messageContainer.classList.add('show');
+    
+    setTimeout(() => {
+        messageContainer.classList.remove('show');
+    }, 3000);
+}
+
+// Update cart count when page loads
+document.addEventListener('DOMContentLoaded', updateCartCount);
+        function reserveMovie(movieId, day) {
+    const movie = moviesByDay[day].find(m => m.id === movieId);
+    const timeSelect = document.getElementById(`time-select-${movieId}`);
+    const selectedTime = timeSelect.value;
+    
+    // Jib reserved movies li kaynin deja
+    let reservedMovies = JSON.parse(localStorage.getItem('reservedMovies')) || [];
+    
+    // Zid movie jdid
+    reservedMovies.push({
+        title: movie.title,
+        image: movie.poster,
+        date: new Date().toLocaleDateString(),
+        time: selectedTime,
+        genre: movie.genre,
+        hall: movie.hall,
+        price: movie.price
+    });
+    
+    // Save f localStorage
+    localStorage.setItem('reservedMovies', JSON.stringify(reservedMovies));
+    
+    // Affichi message success
+    const successMessage = document.getElementById('success-message');
+    successMessage.textContent = "La réservation a été effectuée avec succès";
+    successMessage.style.display = "block";
+    
+    setTimeout(() => {
+        successMessage.style.display = "none";
+    }, 1000);
+}
+        // Initialize with Monday's movies when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            showMovies('Lundi');
+        });
+    </script>
+</body>
+</html>

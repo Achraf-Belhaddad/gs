@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réservations - CinéMaroc</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styleacceuil.css">
+</head>
+<body>  <!-- Navbar -->
+    <nav class="nav">
+        <div class="left-section">
+            <div class="logo">
+                <img src="https://cdn-icons-png.flaticon.com/512/2503/2503508.png" alt="CinéMaroc Logo">
+                CinéMaroc
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="acceuil.html" class="active"><i class="fas fa-home"></i> Accueil</a>
+            <a href="reservations.html"><i class="fas fa-ticket"></i> Réservations</a>
+            <a href="contact.html"><i class="fas fa-phone"></i> Contact</a>
+            <a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+            <a href="panier.html" id="cart-icon"><i class="fas fa-shopping-cart"></i> Panier (<span id="cart-count">0</span>)</a>
+        </div>
+    </nav>
+    <div class="reserved-movies-container">
+        <!-- Movies will be added here dynamically -->
+    </div>
+
+    <section class="reservations-section">
+        <h2>Vos Réservations</h2>
+        <div id="reservations-container">
+            <!-- Reserved movies will be loaded here dynamically -->
+        </div>
+    </section>
+
+    <script>
+        function loadReservations() {
+            const container = document.getElementById('reservations-container');
+            const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+
+            if (reservations.length === 0) {
+                container.innerHTML = '<p style="text-align: center;">Aucune réservation trouvée.</p>';
+                return;
+            }
+
+            container.innerHTML = reservations.map((reservation, index) => `
+                <div class="reservation-card" id="reservation-${index}">
+                    <img src="${reservation.poster}" alt="${reservation.title}" class="reservation-poster">
+                    <div class="reservation-info">
+                        <div>
+                            <h3 class="reservation-title">${reservation.title}</h3>
+                            <p class="reservation-details">
+                                <i class="fas fa-film"></i> ${reservation.genre}<br>
+                                <i class="fas fa-door-open"></i> ${reservation.hall}<br>
+                                <i class="fas fa-clock"></i> ${reservation.time}<br>
+                                <i class="fas fa-tag"></i> ${reservation.price}
+                            </p>
+                        </div>
+                        <div class="reservation-buttons">
+                            <button class="btn-confirm" onclick="confirmReservation(${index})">
+                                <i class="fas fa-check"></i> Confirmer
+                            </button>
+                            <button class="btn-cancel" onclick="cancelReservation(${index})">
+                                <i class="fas fa-times"></i> Annuler
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function confirmReservation(index) {
+    const reservationCard = document.getElementById(`reservation-${index}`);
+    const confirmButton = reservationCard.querySelector('.btn-confirm');
+    
+    // Style changes to show confirmation
+    reservationCard.style.backgroundColor = '#e8f5e9';
+    reservationCard.style.borderColor = '#4caf50';
+    
+    // Update button
+    confirmButton.innerHTML = '<i class="fas fa-check-circle"></i> Confirmé';
+    confirmButton.style.backgroundColor = '#4caf50';
+    confirmButton.disabled = true;
+    
+    // Disable cancel button
+    
+}
+
+        function cancelReservation(index) {
+            if (confirm('Êtes-vous sûr de vouloir annuler cette réservation ?')) {
+                const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+                reservations.splice(index, 1);
+                localStorage.setItem('reservations', JSON.stringify(reservations));
+                loadReservations();
+            }
+        }
+
+        // Load reservations when page loads
+        document.addEventListener('DOMContentLoaded', loadReservations);
+        document.addEventListener('DOMContentLoaded', function() {
+    displayReservedMovies();
+});
+
+function displayReservedMovies() {
+    const container = document.querySelector('.reserved-movies-container');
+    const reservedMovies = JSON.parse(localStorage.getItem('reservedMovies')) || [];
+    
+    if (reservedMovies.length === 0) {
+        container.innerHTML = '<p class="no-reservations">Aucune réservation pour le moment</p>';
+        return;
+    }
+    
+    let html = '';
+    reservedMovies.forEach((movie, index) => {
+        html += `
+            <div class="reserved-movie" id="reservation-${index}">
+                <img src="${movie.image}" alt="${movie.title}">
+                <div class="movie-details">
+                    <h3>${movie.title}</h3>
+                    <p><i class="fas fa-calendar"></i> Réservé le: ${movie.date}</p>
+                    <p><i class="fas fa-clock"></i> Séance: ${movie.time}</p>
+                    <p><i class="fas fa-film"></i> ${movie.genre}</p>
+                    <p><i class="fas fa-door-open"></i> ${movie.hall}</p>
+                    <p><i class="fas fa-tag"></i> ${movie.price}</p>
+                    <div class="reservation-buttons">
+                        <button class="btn-confirm" onclick="confirmReservation(${index})">
+                            <i class="fas fa-check"></i> Confirmer
+                        </button>
+                        <button class="btn-cancel" onclick="cancelReservation(${index})">
+                            <i class="fas fa-times"></i> Annuler
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    
+    container.innerHTML = html;
+}
+function confirmReservation(index) {
+    const reservationCard = document.getElementById(`reservation-${index}`);
+    const confirmButton = reservationCard.querySelector('.btn-confirm');
+    const cancelButton = reservationCard.querySelector('.btn-cancel');
+    
+    // Style changes
+    reservationCard.style.backgroundColor = '#e8f5e9';
+    reservationCard.style.borderColor = '#4caf50';
+    reservationCard.style.transition = 'all 0.3s ease';
+    
+    // Update confirm button
+    confirmButton.innerHTML = '<i class="fas fa-check-circle"></i> Confirmé';
+    confirmButton.style.backgroundColor = '#4caf50';
+    confirmButton.disabled = true;
+    
+    // Disable cancel button
+
+    
+    // Save confirmation status in localStorage
+    let reservedMovies = JSON.parse(localStorage.getItem('reservedMovies')) || [];
+    reservedMovies[index].confirmed = true;
+    localStorage.setItem('reservedMovies', JSON.stringify(reservedMovies));
+}
+function cancelReservation(index) {
+    if (confirm('Êtes-vous sûr de vouloir annuler cette réservation ?')) {
+        let reservedMovies = JSON.parse(localStorage.getItem('reservedMovies')) || [];
+        reservedMovies.splice(index, 1);
+        localStorage.setItem('reservedMovies', JSON.stringify(reservedMovies));
+        displayReservedMovies();
+    }
+}
+
+    </script>
+</body>
+</html>

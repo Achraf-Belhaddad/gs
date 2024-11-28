@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - CinéMaroc</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styleacceuil.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="nav">
+        <!-- ... navbar code ... -->
+    </nav>
+
+    <div class="auth-container">
+        <div class="auth-box">
+            <h2><i class="fas fa-user-plus"></i> Inscription</h2>
+            <form onsubmit="sign(event)" class="auth-form">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Nom d'utilisateur</label>
+                    <input type="text" name="username" required>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-envelope"></i> Email</label>
+                    <input type="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Mot de passe</label>
+                    <input type="password" name="password" required>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Confirmer le mot de passe</label>
+                    <input type="password" name="confirm_password" required>
+                </div>
+
+                <input type="submit" value="S'inscrire" class="btn-auth">
+            </form>
+            
+            <div class="auth-links">
+                <p>Déjà inscrit? <a href="login.html">Se connecter</a></p>
+            </div>
+        </div>
+    </div>
+</body>
+<script> 
+function sign(event){
+    event.preventDefault(); // Hadi kat7bes reload l page
+    // Hna t9dar t7t registration logic
+    window.location.href='login.html';
+}
+</script>
+</html>

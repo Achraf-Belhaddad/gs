@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panier - CinéMaroc</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="styleacceuil.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="nav">
+        <!-- ... navbar code ... -->
+    </nav>
+
+    <div class="cart-container">
+        <h2>Mon Panier</h2>
+        <div id="cart-items"></div>
+        <div class="cart-total">
+            <h3>Total: <span id="total-price">0 MAD</span></h3>
+            <button class="btn-checkout" onclick="checkout()">
+                Passer la commande
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function loadCart() {
+            const cartContainer = document.getElementById('cart-items');
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            
+            if (cartItems.length === 0) {
+                cartContainer.innerHTML = '<p class="empty-cart">Votre panier est vide</p>';
+                return;
+            }
+            
+            let html = '';
+            let total = 0;
+            
+            cartItems.forEach((item, index) => {
+                total += item.price;
+                html += `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.title}">
+                        <div class="item-details">
+                            <h3>${item.title}</h3>
+                            <p><i class="fas fa-calendar"></i> ${item.date}</p>
+                            <p><i class="fas fa-clock"></i> ${item.time}</p>
+                            <p><i class="fas fa-door-open"></i> ${item.hall}</p>
+                            <p class="item-price">${item.price} MAD</p>
+                        </div>
+                        <button class="btn-remove" onclick="removeItem(${index})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+            });
+            
+            cartContainer.innerHTML = html;
+            document.getElementById('total-price').textContent = `${total} MAD`;
+        }
+        
+        function removeItem(index) {
+            let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            cartItems.splice(index, 1);
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            loadCart();
+            updateCartCount();
+        }
+        
+        function checkout() {
+            if(confirm('Voulez-vous confirmer votre commande?')) {
+                localStorage.removeItem('cartItems');
+                loadCart();
+                updateCartCount();
+                alert('Commande confirmée! Merci de votre achat.');
+            }
+        }
+        
+        function updateCartCount() {
+            const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+            document.getElementById('cart-count').textContent = cartItems.length;
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCart();
+            updateCartCount();
+        });
+        function checkout() {
+    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    
+    if (cartItems.length === 0) {
+        alert('Votre panier est vide!');
+        return;
+    }
+
+    if(confirm('Voulez-vous procéder au paiement?')) {
+        // Save current cart state for payment page
+        sessionStorage.setItem('checkoutItems', JSON.stringify(cartItems));
+        
+        // Redirect to payment page
+        window.location.href = 'payement.html';
+    }
+}
+    </script>
+</body>
+</html>
